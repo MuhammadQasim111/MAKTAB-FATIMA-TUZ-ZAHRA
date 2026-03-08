@@ -26,13 +26,20 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Maktab-e-Fatima-tuz-Zuhra API")
 
-# Update static directory handle
-UPLOAD_DIR = os.getenv("AUDIO_UPLOAD_DIR", "./uploads")
-if not os.path.exists(UPLOAD_DIR):
-    os.makedirs(UPLOAD_DIR)
+# Check if running on Vercel
+IS_VERCEL = os.environ.get("VERCEL") == "1"
 
-# Mount static files for audio
-app.mount("/audio", StaticFiles(directory=UPLOAD_DIR), name="audio")
+# Update static directory handle
+UPLOAD_DIR = os.getenv("AUDIO_UPLOAD_DIR", "/tmp/uploads" if IS_VERCEL else "./uploads")
+if not os.path.exists(UPLOAD_DIR):
+    try:
+        os.makedirs(UPLOAD_DIR)
+    except OSError:
+        pass
+
+if not IS_VERCEL:
+    # Mount static files for audio
+    app.mount("/audio", StaticFiles(directory=UPLOAD_DIR), name="audio")
 
 # CORS setup
 app.add_middleware(
@@ -177,10 +184,10 @@ def create_donation(donation: schemas.DonationCreate, db: Session = Depends(get_
 def get_donations(db: Session = Depends(get_db), current_user: models.AdminUser = Depends(get_current_user)):
     return db.query(models.Donation).order_by(models.Donation.created_at.desc()).all()
 
-# SERVE FRONTEND BUILD
+# SERVE FRONTEND BUILD (Only locally, not on Vercel)
 FRONTEND_DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "dist")
 
-if os.path.exists(FRONTEND_DIST):
+if not IS_VERCEL and os.path.exists(FRONTEND_DIST):
     # Mount assets folder
     app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIST, "assets")), name="assets")
     
