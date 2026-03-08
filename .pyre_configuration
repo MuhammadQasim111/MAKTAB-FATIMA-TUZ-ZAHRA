@@ -1,0 +1,10 @@
+{
+  "source_directories": [
+    "backend"
+  ],
+  "site_package_search_strategy": "all",
+  "search_path": [
+    "c:/Users/hp/Desktop/Afghan/backend/.venv/Lib/site-packages",
+    "backend"
+  ]
+}

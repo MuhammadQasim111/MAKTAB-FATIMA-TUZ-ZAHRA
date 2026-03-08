@@ -1,0 +1,7 @@
+{
+    "python.defaultInterpreterPath": "c:/Users/hp/Desktop/Afghan/backend/.venv/Scripts/python.exe",
+    "python.analysis.extraPaths": [
+        "c:/Users/hp/Desktop/Afghan/backend",
+        "c:/Users/hp/Desktop/Afghan/backend/.venv/Lib/site-packages"
+    ]
+}

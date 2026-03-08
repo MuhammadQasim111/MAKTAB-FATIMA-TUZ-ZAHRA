@@ -1,0 +1,18 @@
+{
+    "venvPath": "c:/Users/hp/Desktop/Afghan/backend",
+    "venv": ".venv",
+    "include": [
+        "backend"
+    ],
+    "pythonVersion": "3.13",
+    "reportMissingImports": true,
+    "typeCheckingMode": "basic",
+    "executionEnvironments": [
+        {
+            "root": "backend",
+            "extraPaths": [
+                "."
+            ]
+        }
+    ]
+}
